@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 const allowedOrigins = [
     "http://localhost:3039", // Your frontend local development origin
     "http://13.40.120.157:6340", // API server origin
+    "http://sheru.solidblackabroad.com"
 ];
 
 app.use(
