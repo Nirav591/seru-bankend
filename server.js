@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 // CORS Middleware
 const allowedOrigins = [
-    'http://localhost:3039', // Allow localhost
+    'http://13.40.120.157:6340', // Allow localhost
 ];
 
 app.use(cors({
