@@ -65,5 +65,5 @@ app.use('/api/questions', questionRoutes)
 
 
 // Start the server
-const PORT = process.env.PORT || 6310;
+const PORT = process.env.PORT || 6340;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
