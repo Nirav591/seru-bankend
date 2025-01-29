@@ -11,5 +11,9 @@ router.get('/:chapter_id', questionController.getQuestionsByChapter);
 // Add a route to delete the question
 router.delete('/:question_id', questionController.deleteQuestion);
 
+// Get all questions from the database
+router.get('/', questionController.getAllQuestions);
+
+
 
 module.exports = router;

@@ -2,10 +2,10 @@ const Question = require('../models/Question');
 
 exports.addQuestion = async (req, res) => {
 
-    
+
     try {
         const { chapter_id, question, type, noOfAnswer, options } = req.body;
-        
+
 
         if (!chapter_id || !question || !type || !noOfAnswer || !options || options.length === 0) {
             return res.status(400).json({ error: 'All fields are required, including options.' });
@@ -81,5 +81,23 @@ exports.deleteQuestion = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while deleting the question.' });
+    }
+};
+
+exports.getAllQuestions = async (req, res) => {
+    try {
+        // Fetch all questions from the database
+        const questions = await Question.getAllQuestions();
+
+        // For each question, fetch its options
+        for (const question of questions) {
+            const options = await Question.getOptionsByQuestionId(question.id);
+            question.options = options; // Attach options to each question
+        }
+
+        res.status(200).json({ questions });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while fetching questions.' });
     }
 };

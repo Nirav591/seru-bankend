@@ -25,26 +25,26 @@ const Question = {
   // Function to add a question
   addQuestion: async ({ chapter_id, question, type, noOfAnswer }) => {
     try {
-        // Check if the question already exists in the same chapter
-        const checkSql = `SELECT id FROM questions WHERE chapter_id = ? AND question = ?`;
-        const [existing] = await pool.execute(checkSql, [chapter_id, question]);
+      // Check if the question already exists in the same chapter
+      const checkSql = `SELECT id FROM questions WHERE chapter_id = ? AND question = ?`;
+      const [existing] = await pool.execute(checkSql, [chapter_id, question]);
 
-        if (existing.length > 0) {
-            return { error: 'Duplicate question exists', questionId: existing[0].id };
-        }
+      if (existing.length > 0) {
+        return { error: 'Duplicate question exists', questionId: existing[0].id };
+      }
 
-        // Insert new question
-        const sql = `
+      // Insert new question
+      const sql = `
             INSERT INTO questions (chapter_id, question, type, no_of_answers)
             VALUES (?, ?, ?, ?)
         `;
-        const [result] = await pool.execute(sql, [chapter_id, question, type, noOfAnswer]);
-        return { questionId: result.insertId }; // Return the inserted question ID
+      const [result] = await pool.execute(sql, [chapter_id, question, type, noOfAnswer]);
+      return { questionId: result.insertId }; // Return the inserted question ID
     } catch (error) {
-        console.error('Error adding question:', error);
-        throw new Error('Failed to add question');
+      console.error('Error adding question:', error);
+      throw new Error('Failed to add question');
     }
-},
+  },
   // Function to add an option for a question
   addOption: async ({ question_id, option, isAnswer }) => {
     const sql = `
@@ -76,5 +76,17 @@ const Question = {
   },
 
 };
+
+exports.getAllQuestions = async () => {
+  try {
+    const query = 'SELECT * FROM questions'; // Modify this according to your actual schema
+    const [rows] = await db.query(query);
+    return rows;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Database query failed');
+  }
+};
+
 
 module.exports = Question;
