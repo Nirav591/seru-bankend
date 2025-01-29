@@ -1,10 +1,11 @@
 const Question = require('../models/Question');
 
 exports.addQuestion = async (req, res) => {
-    console.log(req , "req");
+
     
     try {
         const { chapter_id, question, type, noOfAnswer, options } = req.body;
+        
 
         if (!chapter_id || !question || !type || !noOfAnswer || !options || options.length === 0) {
             return res.status(400).json({ error: 'All fields are required, including options.' });
