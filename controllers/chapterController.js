@@ -1,3 +1,4 @@
+const pool = require('../config/db.js');
 const Chapter = require('../models/Chapter');
 const Question = require('../models/Question.js');
 
@@ -6,6 +7,9 @@ exports.addChapter = async (req, res) => {
     try {
         const { title, index_number, content } = req.body;
         
+        console.log(req , );
+        
+
         // Input validation
         if (!title || !index_number || !content) {
             return res.status(400).json({ error: 'All fields are required.' });
