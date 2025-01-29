@@ -1,20 +1,17 @@
 const Question = require('../models/Question');
 
 exports.addQuestion = async (req, res) => {
-
-
     try {
         const { chapter_id, question, type, noOfAnswer, options } = req.body;
-
 
         if (!chapter_id || !question || !type || !noOfAnswer || !options || options.length === 0) {
             return res.status(400).json({ error: 'All fields are required, including options.' });
         }
 
-        // Insert the question or get existing question ID
         const result = await Question.addQuestion({ chapter_id, question, type, noOfAnswer });
 
         if (result.error) {
+            console.error('Database Error:', result.error); // Log error for debugging
             return res.status(409).json({ error: result.error, questionId: result.questionId });
         }
 
@@ -34,7 +31,7 @@ exports.addQuestion = async (req, res) => {
 
         res.status(201).json({ message: 'Question added successfully.', questionId });
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error:', error); // Log full error stack trace
         res.status(500).json({ error: 'An error occurred while adding the question.' });
     }
 };
